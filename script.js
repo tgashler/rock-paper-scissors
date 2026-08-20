@@ -1,17 +1,18 @@
 let humanScore = 0;
 let computerScore = 0;
+let roundNum = 0;
 
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 3);
-    
+
     if (randomNumber === 0) {
-        return("rock");
+        return ("rock");
     }
     else if (randomNumber === 1) {
-        return("paper");
+        return ("paper");
     }
     else {
-        return("scissors");
+        return ("scissors");
     }
 }
 
@@ -20,59 +21,64 @@ function getHumanChoice() {
     humanSelection = humanSelectionHigh.toLowerCase();
 
     if (humanSelection === "rock") {
-        return("rock");
+        return ("rock");
     }
     else if (humanSelection === "paper") {
-        return("paper");
+        return ("paper");
     }
     else if (humanSelection === "scissors") {
-        return("scissors");
+        return ("scissors");
     }
 }
 
 function playRound(humanChoice, computerChoice) {
     let humanWinRound = false;
-    
-    if (humanChoice === "rock" && computerChoice === "scissors") {
-        humanScore ++;
-        alert("You WIN! Rock beats scissors");
-        return;
+    roundNum++;
+
+    if (humanChoice === "scissors") {
+        if (computerChoice === "paper") {
+            humanWinRound = true;
+        }
     }
-    else if (humanChoice === "paper" && computerChoice === "rock") {
-        humanScore ++;
-        alert("You WIN! Paper beats rock");
-        return;
+    if (humanChoice === "rock") {
+        if (computerChoice === "scissors") {
+            humanWinRound = true;
+        }
     }
-     else if (humanChoice === "scissors" && computerChoice === "paper") {
-        humanScore ++;
-        alert("You WIN! Scissors beats paper");
-        return;
+    if (humanChoice === "paper") {
+        if (computerChoice === "rock") {
+            humanWinRound = true;
+        }
     }
 
-    else if (humanChoice === computerChoice) {
-        alert("Draw")
-        return;
-    }
 
+    if (humanChoice === computerChoice) {
+        alert(`Uh oh, it was a tie of ${humanChoice} to ${computerChoice}`)
+    }
+    else if (humanWinRound === true) {
+        humanScore++;
+        alert(`You WIN! Your ${humanChoice} beat ${computerChoice}`)
+    }
     else {
-        computerScore ++;
-        console.log("HAHA YOU LOSE")
-        return;
+        computerScore++;
+        alert(`You LOSE Your ${humanChoice} lost to ${computerChoice}`)
     }
+    showScore();
+    return;
 }
 
 function showScore() {
-alert("You have a score of " + humanScore);
-alert("Your opp has a score of " + computerScore);
+    alert("You have a score of " + humanScore);
+    alert("Your opp has a score of " + computerScore);
+    alert(`You get to play ${5 - roundNum} more rounds`)
 }
 
 function playGame() {
     let keepGoing = true;
     while (keepGoing === true) {
         playRound(getHumanChoice(), getComputerChoice());
-        showScore();
-        
-        if (computerScore + humanScore === 5) {
+
+        if (roundNum === 5) {
             keepGoing = false;
         }
     }
@@ -81,10 +87,14 @@ function playGame() {
 
 function endGame() {
     if (computerScore > humanScore) {
-        console.log("YOU SUCK YOU LOSE");
+        alert("YOU SUCK YOU LOSE");
+    }
+    
+    else if (computerScore === humanScore) {
+        alert("BORING its a tie")
     }
     else {
-        console.log("YOU RULE!! YOU WIN");
+        alert("YOU RULE!! YOU WIN");
     }
 }
 
